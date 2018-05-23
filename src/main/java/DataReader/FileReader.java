@@ -12,22 +12,12 @@ import java.util.List;
 
 public class FileReader {
 
-    private static FileReader ourInstance;
-
     private String fileName;
     private List<List<Double>> rawData;
     private int samplingRate;
     private int channelsNum;
 
-    public static FileReader getInstance(String fileName)
-    {
-        if(ourInstance == null)
-            ourInstance = new FileReader(fileName);
-
-        return ourInstance;
-    }
-
-    private FileReader(String fileName) {
+    public FileReader(String fileName) {
 
         this.fileName = fileName;
         this.rawData = new ArrayList<>();
@@ -106,7 +96,7 @@ public class FileReader {
         return occupancies;
     }
 
-    public void readData(){
+    public void loadData(){
 
         try {
             readFile();
@@ -119,5 +109,15 @@ public class FileReader {
     public int getSamplingRate() {
 
         return samplingRate;
+    }
+
+    public int getChannelsNum() {
+
+        return channelsNum;
+    }
+
+    public List<List<Double>> getRawData(){
+
+        return rawData;
     }
 }
