@@ -1,3 +1,4 @@
+import DataReader.FileReader;
 
 /**
  * @author Wojciech Różycki
@@ -7,6 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Hello, World");
+        FileReader fileReader = FileReader.getInstance("eeg.txt");
+        fileReader.readData();
     }
 }
