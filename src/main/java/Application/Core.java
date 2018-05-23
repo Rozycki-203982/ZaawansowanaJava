@@ -2,15 +2,19 @@ package Application;
 
 import DataReader.FileReader;
 import Model.EEGData;
+import WaveTransformations.SignalFiltration;
+
+import java.util.List;
 
 /**
  * Main application class
  */
 public class Core {
 
-    final String fileName = "eeg.txt";
+    private final String fileName = "eeg.txt";
     private FileReader fileReader;
     private EEGData eegData;
+    private SignalFiltration signalFiltration;
 
     public Core(){ }
 
@@ -18,6 +22,7 @@ public class Core {
 
         readFile();
         loadEEG();
+        getClearAlfaWaves();
     }
 
     private void readFile(){
@@ -36,7 +41,14 @@ public class Core {
 
             eegData.saveData(i, fileReader.getRawData().get(i));
         }
+    }
 
-        eegData.read();
+    private void getClearAlfaWaves() {
+
+        signalFiltration = new SignalFiltration();
+        List<Double> data = eegData.getChannelData(0);
+        signalFiltration.generateFourierTransform(data.subList(0, 256 * 4), eegData.getSamplingRate());
+        Double[] filteredSignal = signalFiltration.alfaWaveFiltration();
+        System.out.println(filteredSignal.length);
     }
 }

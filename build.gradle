@@ -12,7 +12,6 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 	testCompile 'org.mockito:mockito-core:1.9.+'
-    // https://mvnrepository.com/artifact/org.apache.directory.studio/org.apache.commons.io
-    compile group: 'org.apache.directory.studio', name: 'org.apache.commons.io', version: '2.4'
-
+    // https://mvnrepository.com/artifact/org.hipparchus/hipparchus-fft
+    compile group: 'org.hipparchus', name: 'hipparchus-fft', version: '1.3'
 }

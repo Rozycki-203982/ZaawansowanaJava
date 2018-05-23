@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class used for storing all EEG measurement data
+ * Class used for storing all EEG data
  */
 public class EEGData {
 
@@ -15,7 +15,7 @@ public class EEGData {
 
     public EEGData() {
 
-        channels = new HashMap<Integer, Channel>();
+        channels = new HashMap<>();
     }
 
     public void saveData(int channel, List<Double> rawData){
@@ -47,10 +47,8 @@ public class EEGData {
         this.channelsNum = channelsNum;
     }
 
-    public void read(){
+    public List<Double> getChannelData(int channel) {
 
-        System.out.println(channelsNum);
-        System.out.println(samplingRate);
-        System.out.println(channels.get(0).getRawData().size());
+        return channels.get(channel).getRawData();
     }
 }

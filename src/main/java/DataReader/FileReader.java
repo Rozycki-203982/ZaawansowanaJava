@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Class used for reading hdf5 files
  */
-
 public class FileReader {
 
     private String fileName;
@@ -65,7 +64,7 @@ public class FileReader {
 
             if(rawData.size() < channelsNum) {
 
-                rawData.add(new ArrayList<Double>());
+                rawData.add(new ArrayList<>());
             }
 
             nextIndex = textLine.indexOf(',', lastIndex);
