@@ -23,10 +23,10 @@ public class SignalFiltration {
     public void generateFourierTransform(List<Double> data, int samplingRate) {
 
         fftSpectrum = fftTransformations.doFFT(data);
-        frequencyAxis = defineFrequencyAxis(data.size(), samplingRate);
+        frequencyAxis = defineFrequencyAxis(fftSpectrum.length, samplingRate);
     }
 
-    public Double[] alfaWaveFiltration() {
+    public List<Double> alfaWaveFiltration() {
 
         Complex[] filteredSpectrum = fftSpectrum;
         for (int i = 0; i < frequencyAxis.length; i++) {
@@ -40,7 +40,7 @@ public class SignalFiltration {
         return fftTransformations.doIFFT(filteredSpectrum);
     }
 
-    public Double[] betaWaveFiltration() {
+    public List<Double> betaWaveFiltration() {
 
         Complex[] filteredSpectrum = fftSpectrum;
         for (int i = 0; i < frequencyAxis.length; i++) {
@@ -54,7 +54,7 @@ public class SignalFiltration {
         return fftTransformations.doIFFT(filteredSpectrum);
     }
 
-    public Double[] thetaWaveFiltration() {
+    public List<Double> thetaWaveFiltration() {
 
         Complex[] filteredSpectrum = fftSpectrum;
         for (int i = 0; i < frequencyAxis.length; i++) {
@@ -68,7 +68,7 @@ public class SignalFiltration {
         return fftTransformations.doIFFT(filteredSpectrum);
     }
 
-    public Double[] deltaWaveFiltration() {
+    public List<Double> deltaWaveFiltration() {
 
         Complex[] filteredSpectrum = fftSpectrum;
         for (int i = 0; i < frequencyAxis.length; i++) {

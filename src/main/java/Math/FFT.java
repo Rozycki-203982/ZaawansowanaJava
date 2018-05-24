@@ -5,11 +5,12 @@ import org.hipparchus.transform.DftNormalization;
 import org.hipparchus.transform.FastFourierTransformer;
 import org.hipparchus.transform.TransformType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- * Class responsible for math operations
+ * Class responsible for fourier transforms
  */
 public class FFT {
 
@@ -26,14 +27,14 @@ public class FFT {
         return fftClassInstance.transform(sampleArray, TransformType.FORWARD);
     }
 
-    public Double[] doIFFT(Complex[] samples) {
+    public List<Double> doIFFT(Complex[] samples) {
 
         Complex[] inversedValues = fftClassInstance.transform(samples, TransformType.INVERSE);
-        Double[] realValues = new Double[inversedValues.length];
+        List<Double> realValues = new ArrayList<>();
 
         IntStream.range(0, inversedValues.length).forEach(
                 i -> {
-                    realValues[i] = inversedValues[i].getReal();
+                    realValues.add(inversedValues[i].getReal());
                 }
         );
 
