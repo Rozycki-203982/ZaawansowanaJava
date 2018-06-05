@@ -10,7 +10,7 @@ import java.util.Map;
 public class EEGData {
 
     private Map<Integer, Channel> channels;
-    private int samplingRate;
+    private int samplingRate = 1;
     private int channelsNum;
 
     public EEGData() {

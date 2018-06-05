@@ -1,10 +1,8 @@
 package WebService;
 
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/eeg")
@@ -34,15 +32,4 @@ public class EEGWebservice {
         dataCollector.setTimePeriod(time);
         return Response.ok("Ustawiono czas na " + time + " :)").build();
     }
-
-    /*@DELETE
-    @Path("{id}")
-    public Response deleteReservation(@PathParam("id") Integer id) {
-        return Response.ok("Usunęliśmy rezerwację o numerze " + id + " :)").build();
-    }
-
-    @POST
-    public Response createReservation() {
-        return Response.ok("Rezerwacja została utworzona!").build();
-    }*/
 }

@@ -1,62 +1,64 @@
 package DataTransfer;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 
 /**
  * Class responsible for http requests
  */
 public class HTTPClient {
 
-    private final String API_URL = "http://robottest.hekko24.pl";
+    private final String API_URL = "http://localhost:8080/rest/eeg";
 
     public HTTPClient() {
     }
 
-    public int getSamplingRate() {
+    private String readRespond(HttpURLConnection con) throws IOException {
 
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+
+        String responseLine;
+        StringBuffer totalResponse = new StringBuffer();
+
+        while ((responseLine = in.readLine()) != null) {
+
+            totalResponse.append(responseLine);
+        }
+        in.close();
+
+        return totalResponse.toString();
+    }
+
+    private String sendRequest() {
+
+        String response = "";
         try {
 
-            HttpClient httpClient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(
-                    API_URL);
+            URL url = new URL(API_URL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            response = readRespond(con);
+            con.disconnect();
 
-            getRequest.addHeader("accept", "application/json");
-
-            HttpResponse response = httpClient.execute(getRequest);
-
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + response.getStatusLine().getStatusCode());
-            }
-
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader((response.getEntity().getContent())));
-
-            String output;
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
-            }
-
-            //httpClient.getConnectionManager().shutdown();
-
-        } catch (ClientProtocolException e) {
-
+        } catch (MalformedURLException e) {
             e.printStackTrace();
-
+        } catch (ProtocolException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-
             e.printStackTrace();
         }
 
-        return 256;
+        return response;
+    }
+
+    public int getSamplingRate() {
+
+        return Integer.parseInt(sendRequest());
     }
 }

@@ -18,7 +18,7 @@ public class Core {
     private EEGData eegData;
     private SignalFiltration signalFiltration;
     private Graph graph;
-    //private HTTPClient httpClient;
+    private HTTPClient httpClient;
 
     public Core() {
 
@@ -26,25 +26,19 @@ public class Core {
 
     public void runCore(){
 
-        //httpClient = new HTTPClient();
-        //httpClient.getSamplingRate();
+        httpClient = new HTTPClient();
+        System.out.println(httpClient.getSamplingRate());
         //readFile();
         loadEEG();
         graph = new Graph("Pomiary EEG", eegData.getSamplingRate());
         getClearAlfaWaves();
     }
 
-    /*private void readFile(){
-
-        fileReader = new FileReader(fileName);
-        fileReader.loadData();
-    }*/
-
     private void loadEEG(){
 
         eegData = new EEGData();
+        eegData.setSamplingRate(httpClient.getSamplingRate());
         //eegData.setChannelsNum(fileReader.getChannelsNum());
-        //eegData.setSamplingRate(fileReader.getSamplingRate());
 
         /*for(int i = 0; i < eegData.getChannelsNum(); i++){
 
