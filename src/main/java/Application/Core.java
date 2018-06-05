@@ -2,12 +2,9 @@ package Application;
 
 import DataReader.FileReader;
 import DataTransfer.Graph;
-import Math.MathHelper;
+import DataTransfer.HTTPClient;
 import Model.EEGData;
 import WaveTransformations.SignalFiltration;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,11 +13,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class Core {
 
-    private final String fileName = "eeg.txt";
-    private FileReader fileReader;
+    //private final String fileName = "eeg.txt";
+    //private FileReader fileReader;
     private EEGData eegData;
     private SignalFiltration signalFiltration;
     private Graph graph;
+    //private HTTPClient httpClient;
 
     public Core() {
 
@@ -28,28 +26,30 @@ public class Core {
 
     public void runCore(){
 
-        readFile();
+        //httpClient = new HTTPClient();
+        //httpClient.getSamplingRate();
+        //readFile();
         loadEEG();
         graph = new Graph("Pomiary EEG", eegData.getSamplingRate());
         getClearAlfaWaves();
     }
 
-    private void readFile(){
+    /*private void readFile(){
 
         fileReader = new FileReader(fileName);
         fileReader.loadData();
-    }
+    }*/
 
     private void loadEEG(){
 
         eegData = new EEGData();
-        eegData.setChannelsNum(fileReader.getChannelsNum());
-        eegData.setSamplingRate(fileReader.getSamplingRate());
+        //eegData.setChannelsNum(fileReader.getChannelsNum());
+        //eegData.setSamplingRate(fileReader.getSamplingRate());
 
-        for(int i = 0; i < eegData.getChannelsNum(); i++){
+        /*for(int i = 0; i < eegData.getChannelsNum(); i++){
 
             eegData.saveData(i, fileReader.getRawData().get(i));
-        }
+        }*/
     }
 
     private void getClearAlfaWaves() {
