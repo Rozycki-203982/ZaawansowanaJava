@@ -1,12 +1,11 @@
 package DataTransfer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+import Parser.Parser;
+
+import java.io.*;
+import java.net.*;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Class responsible for http requests
@@ -14,6 +13,8 @@ import java.net.URL;
 public class HTTPClient {
 
     private final String API_URL = "http://localhost:8080/rest/eeg";
+
+    private int acquisitionTimePeriod = 1;
 
     public HTTPClient() {
     }
@@ -35,7 +36,7 @@ public class HTTPClient {
         return totalResponse.toString();
     }
 
-    private String sendRequest() {
+    private String sendGetRequest() {
 
         String response = "";
         try {
@@ -43,6 +44,28 @@ public class HTTPClient {
             URL url = new URL(API_URL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
+            response = readRespond(con);
+            con.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    private String sendPUTRequest(Integer timeValue) {
+
+        String response = "";
+
+        try {
+
+            URL url = new URL(API_URL + "/" + timeValue);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            con.setRequestMethod("PUT");
+            con.setRequestProperty("Content-Type", "application/json");
+
             response = readRespond(con);
             con.disconnect();
 
@@ -57,8 +80,27 @@ public class HTTPClient {
         return response;
     }
 
-    public int getSamplingRate() {
+    public List<Integer> getFirstRespond() {
 
-        return Integer.parseInt(sendRequest());
+        return Parser.parseStringToIntList(sendGetRequest());
+    }
+
+    public List<List<Double>> getData() {
+
+        return Parser.parseStringToDoubleListList(sendGetRequest());
+    }
+
+    public int getAcquisitionTimePeriod() {
+        return acquisitionTimePeriod;
+    }
+
+    public void setAcquisitionTimePeriod(int acquisitionTimePeriod) {
+
+        String response = sendPUTRequest(acquisitionTimePeriod);
+
+        if (Objects.equals(response, "Success")) {
+
+            this.acquisitionTimePeriod = acquisitionTimePeriod;
+        }
     }
 }

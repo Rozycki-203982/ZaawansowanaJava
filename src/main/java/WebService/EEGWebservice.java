@@ -3,6 +3,7 @@ package WebService;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/eeg")
@@ -26,10 +27,10 @@ public class EEGWebservice {
     }
 
     @PUT
-    @Path("{time}")
-    public Response updateAcquisitionTime(@PathParam("time") Integer time) {
+    @Path("{id}")
+    public Response updateAcquisitionTime(@PathParam("id") Integer time) {
 
         dataCollector.setTimePeriod(time);
-        return Response.ok("Ustawiono czas na " + time + " :)").build();
+        return Response.ok("Success").build();
     }
 }

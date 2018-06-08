@@ -74,10 +74,13 @@ public class DataCollector {
         return samples;
     }
 
-    private int getFirstRequest() {
+    private List<Integer> getFirstRequest() {
 
+        List<Integer> result = new ArrayList<>();
+        result.add(fileReader.getSamplingRate());
+        result.add(fileReader.getChannelsNum());
         requestNumber++;
-        return fileReader.getSamplingRate();
+        return result;
     }
 
     public void setTimePeriod(int timePeriod) {

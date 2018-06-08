@@ -5,6 +5,8 @@ import DataTransfer.Graph;
 import DataTransfer.HTTPClient;
 import Model.EEGData;
 import WaveTransformations.SignalFiltration;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,39 +29,53 @@ public class Core {
     public void runCore(){
 
         httpClient = new HTTPClient();
-        System.out.println(httpClient.getSamplingRate());
         //readFile();
-        loadEEG();
+        initializeEEG();
         graph = new Graph("Pomiary EEG", eegData.getSamplingRate());
         getClearAlfaWaves();
     }
 
-    private void loadEEG(){
+    private void initializeEEG() {
 
         eegData = new EEGData();
-        eegData.setSamplingRate(httpClient.getSamplingRate());
-        //eegData.setChannelsNum(fileReader.getChannelsNum());
+        httpClient.setAcquisitionTimePeriod(2);
+        List<Integer> headerData = httpClient.getFirstRespond();
+        eegData.setSamplingRate(headerData.get(0));
+        eegData.setChannelsNum(headerData.get(1));
+    }
 
-        /*for(int i = 0; i < eegData.getChannelsNum(); i++){
+    private void receiveData() {
 
-            eegData.saveData(i, fileReader.getRawData().get(i));
-        }*/
+        List<List<Double>> data;
+        data = httpClient.getData();
+
+        for (int i = 0; i < data.size(); i++) {
+
+            eegData.saveData(i, data.get(i));
+        }
     }
 
     private void getClearAlfaWaves() {
 
-
+        int channelID = 0;
+        int requestID = 0;
         signalFiltration = new SignalFiltration();
+        receiveData();
+        List<Double> data = eegData.getChannelData(channelID).subList(0, eegData.getSamplingRate());
 
-        for (int i = 0; i < 10; i++) {
-
-            List<Double> data = eegData.getChannelData(0).subList(i * 256, (i + 1) * 256);
+        while (data.size() > 0) {
 
             signalFiltration.generateFourierTransform(data, eegData.getSamplingRate());
             List<Double> filteredSignal = signalFiltration.alfaWaveFiltration();
 
             graph.vizualizeData(data, "Czysty sygnal");
             graph.vizualizeData(filteredSignal, "Fale alfa");
+
+            receiveData();
+            requestID++;
+            int firstSampleId = requestID * eegData.getSamplingRate() * httpClient.getAcquisitionTimePeriod();
+            int lastSampleId = (requestID + 1) * eegData.getSamplingRate() * httpClient.getAcquisitionTimePeriod();
+            data = eegData.getChannelData(channelID).subList(firstSampleId, lastSampleId);
 
             try {
 
