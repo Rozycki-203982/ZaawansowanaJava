@@ -39,7 +39,13 @@ public class Parser {
 
         for (String vals : valuesArr) {
 
-            result.add(parseStringToDoubleList(vals.substring(1)));
+            if (!vals.startsWith("["))
+                vals = "[" + vals;
+
+            if (!vals.endsWith("]"))
+                vals += "]";
+
+            result.add(parseStringToDoubleList(vals));
         }
 
         return result;

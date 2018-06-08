@@ -1,12 +1,10 @@
 package Application;
 
-import DataReader.FileReader;
-import DataTransfer.Graph;
+import DataVisualizer.Graph;
 import DataTransfer.HTTPClient;
 import Model.EEGData;
 import WaveTransformations.SignalFiltration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +34,7 @@ public class Core {
     private void initializeEEG() {
 
         eegData = new EEGData();
-        httpClient.setAcquisitionTimePeriod(2);
+        httpClient.setAcquisitionTimePeriod(1);
         List<Integer> headerData = httpClient.getFirstRespond();
         eegData.setSamplingRate(headerData.get(0));
         eegData.setChannelsNum(headerData.get(1));

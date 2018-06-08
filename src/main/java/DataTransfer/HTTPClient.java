@@ -91,10 +91,11 @@ public class HTTPClient {
     }
 
     public int getAcquisitionTimePeriod() {
+
         return acquisitionTimePeriod;
     }
 
-    public void setAcquisitionTimePeriod(int acquisitionTimePeriod) {
+    public String setAcquisitionTimePeriod(int acquisitionTimePeriod) {
 
         String response = sendPUTRequest(acquisitionTimePeriod);
 
@@ -102,5 +103,7 @@ public class HTTPClient {
 
             this.acquisitionTimePeriod = acquisitionTimePeriod;
         }
+
+        return response;
     }
 }
