@@ -1,5 +1,8 @@
 package DataTransfer;
 
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +47,8 @@ public class Graph extends ApplicationFrame {
         );
 
         ChartPanel panel = new ChartPanel(chart, true, true, true, false, true);
-        panel.setPreferredSize(new java.awt.Dimension(500, 270));
+        final Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
+        panel.setPreferredSize(fullScreen);
         setContentPane(panel);
 
     }

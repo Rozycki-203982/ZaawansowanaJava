@@ -15,12 +15,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class Core {
 
-    //private final String fileName = "eeg.txt";
-    //private FileReader fileReader;
     private EEGData eegData;
     private SignalFiltration signalFiltration;
     private Graph graph;
     private HTTPClient httpClient;
+    private int channelID = 0;
 
     public Core() {
 
@@ -29,10 +28,9 @@ public class Core {
     public void runCore(){
 
         httpClient = new HTTPClient();
-        //readFile();
         initializeEEG();
         graph = new Graph("Pomiary EEG", eegData.getSamplingRate());
-        getClearAlfaWaves();
+        getClearWaves();
     }
 
     private void initializeEEG() {
@@ -55,9 +53,8 @@ public class Core {
         }
     }
 
-    private void getClearAlfaWaves() {
+    private void getClearWaves() {
 
-        int channelID = 0;
         int requestID = 0;
         signalFiltration = new SignalFiltration();
         receiveData();
@@ -66,10 +63,16 @@ public class Core {
         while (data.size() > 0) {
 
             signalFiltration.generateFourierTransform(data, eegData.getSamplingRate());
-            List<Double> filteredSignal = signalFiltration.alfaWaveFiltration();
+            List<Double> filteredAlfaSignal = signalFiltration.alfaWaveFiltration();
+            List<Double> filteredBetaSignal = signalFiltration.betaWaveFiltration();
+            List<Double> filteredThetaSignal = signalFiltration.thetaWaveFiltration();
+            List<Double> filteredDeltaSignal = signalFiltration.deltaWaveFiltration();
 
             graph.vizualizeData(data, "Czysty sygnal");
-            graph.vizualizeData(filteredSignal, "Fale alfa");
+            graph.vizualizeData(filteredAlfaSignal, "Fale alfa");
+            graph.vizualizeData(filteredBetaSignal, "Fale beta");
+            graph.vizualizeData(filteredThetaSignal, "Fale theta");
+            graph.vizualizeData(filteredDeltaSignal, "Fale delta");
 
             receiveData();
             requestID++;
