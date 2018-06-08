@@ -3,6 +3,9 @@ package Parser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class which is responsible for parsing data that are transfered from a server
+ */
 public class Parser {
 
     public static List<Integer> parseStringToIntList(String values) {

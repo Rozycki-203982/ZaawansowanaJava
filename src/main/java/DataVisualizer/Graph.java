@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
@@ -19,7 +18,9 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-
+/**
+ * Class which is responsible for visualizating graph with received data
+ */
 public class Graph extends ApplicationFrame {
 
     private final int windowAxis = 5;

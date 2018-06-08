@@ -1,12 +1,14 @@
 package WebService;
 
 import DataReader.FileReader;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import javax.enterprise.context.ApplicationScoped;
 
+/**
+ * Class which includes methods which are executed by webservice
+ */
 @ApplicationScoped
 public class DataCollector {
 

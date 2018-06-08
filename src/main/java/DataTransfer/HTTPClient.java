@@ -1,7 +1,6 @@
 package DataTransfer;
 
 import Parser.Parser;
-
 import java.io.*;
 import java.net.*;
 import java.util.List;

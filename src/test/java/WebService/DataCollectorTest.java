@@ -1,11 +1,9 @@
 package WebService;
 
 import org.junit.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 public class DataCollectorTest {
@@ -27,7 +25,7 @@ public class DataCollectorTest {
     @Test
     public void shouldBe2ElementsArray() {
 
-        List<Integer> expected = new ArrayList(Arrays.asList(256, 15));
+        ArrayList expected = new ArrayList(Arrays.asList(256, 15));
         List<Integer> data = (List<Integer>) dataCollector.getRequest();
         assertEquals(expected, data);
     }

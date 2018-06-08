@@ -1,12 +1,9 @@
 package Model;
 
-import DataReader.FileReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -41,7 +38,7 @@ public class EEGDataTest {
 
         for (int i = 0; i < channelNO; i++) {
 
-            eegData.saveData(i, new ArrayList<Double>());
+            eegData.saveData(i, new ArrayList<>());
         }
 
         assertEquals(channelNO - 1, eegData.getChannelsNum());
@@ -55,7 +52,7 @@ public class EEGDataTest {
 
         for (int i = 0; i < channelNum; i++) {
 
-            eegData.saveData(i, new ArrayList<Double>());
+            eegData.saveData(i, new ArrayList<>());
         }
 
         assertEquals(channelNum, eegData.getChannelsNum());
