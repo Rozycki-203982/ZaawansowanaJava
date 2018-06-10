@@ -3,7 +3,6 @@ package WebService;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -17,16 +16,17 @@ public class EEGWebservice {
     private DataCollector dataCollector;
 
     @GET
-    public Response listSamples() {
+    @Path("{id}")
+    public Response listSamples(@PathParam("id") Integer id) {
 
-        return Response.ok(dataCollector.getRequest()).build();
+        return Response.ok(dataCollector.getRequest(id)).build();
     }
 
     @GET
-    @Path("{id}")
-    public Response getChannelSamples(@PathParam("id") Integer id) {
+    @Path("{value1}/{value2}")
+    public Response getChannelSamples(@PathParam("value1") Integer requestId, @PathParam("value2") Integer channelID) {
 
-        return Response.ok(dataCollector.getRequest(id)).build();
+        return Response.ok(dataCollector.getRequest(requestId, channelID)).build();
     }
 
     @PUT

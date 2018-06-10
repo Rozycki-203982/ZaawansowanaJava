@@ -40,7 +40,7 @@ public class EEGWebserviceTest {
     @Test
     public void shouldGet200() {
 
-        assertEquals(200, client.target("http://localhost:8080/rest/eeg").request().get().getStatus());
+        assertEquals(200, client.target("http://localhost:8080/rest/eeg/1/1").request().get().getStatus());
     }
 
     @Test

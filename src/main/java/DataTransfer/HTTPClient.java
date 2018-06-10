@@ -35,12 +35,12 @@ public class HTTPClient {
         return totalResponse.toString();
     }
 
-    private String sendGetRequest() {
+    private String sendGetRequest(int requestId) {
 
         String response = "";
         try {
 
-            URL url = new URL(API_URL);
+            URL url = new URL(API_URL + "/" + requestId);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             response = readRespond(con);
@@ -81,12 +81,12 @@ public class HTTPClient {
 
     public List<Integer> getFirstRespond() {
 
-        return Parser.parseStringToIntList(sendGetRequest());
+        return Parser.parseStringToIntList(sendGetRequest(0));
     }
 
-    public List<List<Double>> getData() {
+    public List<List<Double>> getData(int requestId) {
 
-        return Parser.parseStringToDoubleListList(sendGetRequest());
+        return Parser.parseStringToDoubleListList(sendGetRequest(requestId));
     }
 
     public int getAcquisitionTimePeriod() {

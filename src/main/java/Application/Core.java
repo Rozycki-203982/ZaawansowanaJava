@@ -4,7 +4,6 @@ import DataVisualizer.Graph;
 import DataTransfer.HTTPClient;
 import Model.EEGData;
 import WaveTransformations.SignalFiltration;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +19,6 @@ public class Core {
     private int channelID = 0;
 
     public Core() {
-
     }
 
     public void runCore(){
@@ -40,10 +38,10 @@ public class Core {
         eegData.setChannelsNum(headerData.get(1));
     }
 
-    private void receiveData() {
+    private void receiveData(int requestID) {
 
         List<List<Double>> data;
-        data = httpClient.getData();
+        data = httpClient.getData(requestID);
 
         for (int i = 0; i < data.size(); i++) {
 
@@ -53,13 +51,14 @@ public class Core {
 
     private void getClearWaves() {
 
-        int requestID = 0;
+        int requestID = 1;
         signalFiltration = new SignalFiltration();
-        receiveData();
+        receiveData(requestID);
         List<Double> data = eegData.getChannelData(channelID).subList(0, eegData.getSamplingRate());
 
         while (data.size() > 0) {
 
+            requestID++;
             signalFiltration.generateFourierTransform(data, eegData.getSamplingRate());
             List<Double> filteredAlfaSignal = signalFiltration.alfaWaveFiltration();
             List<Double> filteredBetaSignal = signalFiltration.betaWaveFiltration();
@@ -72,10 +71,9 @@ public class Core {
             graph.vizualizeData(filteredThetaSignal, "Fale theta");
             graph.vizualizeData(filteredDeltaSignal, "Fale delta");
 
-            receiveData();
-            requestID++;
-            int firstSampleId = requestID * eegData.getSamplingRate() * httpClient.getAcquisitionTimePeriod();
-            int lastSampleId = (requestID + 1) * eegData.getSamplingRate() * httpClient.getAcquisitionTimePeriod();
+            receiveData(requestID);
+            int firstSampleId = (requestID - 2) * eegData.getSamplingRate() * httpClient.getAcquisitionTimePeriod();
+            int lastSampleId = (requestID - 1) * eegData.getSamplingRate() * httpClient.getAcquisitionTimePeriod();
             data = eegData.getChannelData(channelID).subList(firstSampleId, lastSampleId);
 
             try {

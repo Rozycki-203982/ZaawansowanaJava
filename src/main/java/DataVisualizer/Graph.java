@@ -49,7 +49,6 @@ public class Graph extends ApplicationFrame {
         final Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
         panel.setPreferredSize(fullScreen);
         setContentPane(panel);
-
     }
 
     private void defineXAxes(List<Double> yAxis, String yAxisTitle) {

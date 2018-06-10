@@ -53,4 +53,20 @@ public class Parser {
 
         return result;
     }
+
+    /**
+     * Returns string request into List which includes requestID and channelID
+     */
+    public static List<Integer> parseRequest(String values) {
+
+        List<Integer> result = new ArrayList<>();
+        String valuesArr[] = values.split("d");
+
+        for (String val : valuesArr) {
+
+            result.add(Integer.parseInt(val));
+        }
+
+        return result;
+    }
 }

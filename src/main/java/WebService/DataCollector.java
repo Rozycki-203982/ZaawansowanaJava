@@ -1,6 +1,8 @@
 package WebService;
 
 import DataReader.FileReader;
+import Parser.Parser;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -14,7 +16,6 @@ public class DataCollector {
 
     private final String fileName = "eeg.txt";
     private FileReader fileReader;
-    private int requestNumber = 0;
     private int timePeriod = 1;
 
     public DataCollector() {
@@ -23,23 +24,23 @@ public class DataCollector {
         fileReader.loadData();
     }
 
-    public Object getRequest() {
+    public Object getRequest(int requestId) {
 
-        if (requestNumber == 0)
+        if (requestId == 0)
             return getFirstRequest();
         else
-            return readFile();
+            return readFile(requestId);
     }
 
-    public Object getRequest(int channelID) {
+    public Object getRequest(int requestID, int channelID) {
 
-        if (requestNumber == 0)
+        if (requestID == 0)
             return getFirstRequest();
         else
-            return readFile(channelID);
+            return readFile(requestID, channelID);
     }
 
-    private List<List<Double>> readFile() {
+    private List<List<Double>> readFile(int requestNumber) {
 
         List<List<Double>> samples = new ArrayList<>();
         int startSample = requestNumber * fileReader.getSamplingRate() * timePeriod;
@@ -50,7 +51,6 @@ public class DataCollector {
             return samples;
         }
 
-        requestNumber++;
         IntStream.range(0, fileReader.getChannelsNum()).forEach(
                 i -> samples.add(fileReader.getRawData().get(i).subList(startSample, finalSample))
         );
@@ -58,7 +58,7 @@ public class DataCollector {
         return samples;
     }
 
-    private List<Double> readFile(int channelID) {
+    private List<Double> readFile(int requestNumber, int channelID) {
 
         List<Double> samples = new ArrayList<>();
 
@@ -70,7 +70,6 @@ public class DataCollector {
             return samples;
         }
 
-        requestNumber++;
         samples.addAll(fileReader.getRawData().get(channelID).subList(startSample, finalSample));
 
         return samples;
@@ -81,7 +80,6 @@ public class DataCollector {
         List<Integer> result = new ArrayList<>();
         result.add(fileReader.getSamplingRate());
         result.add(fileReader.getChannelsNum());
-        requestNumber++;
         return result;
     }
 

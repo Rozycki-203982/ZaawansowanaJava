@@ -1,6 +1,5 @@
 package DataTransfer;
 
-import DataReader.FileReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,9 +42,9 @@ public class HTTPClientTest {
     public void shouldBeEqaulArrays() {
 
         List<List<Double>> samples = new ArrayList<>();
-        Mockito.when(httpClient.getData()).thenReturn(samples);
+        Mockito.when(httpClient.getData(1)).thenReturn(samples);
 
-        assertEquals(samples, httpClient.getData());
+        assertEquals(samples, httpClient.getData(1));
     }
 
     @Test
