@@ -40,12 +40,24 @@ public class EEGWebserviceTest {
     @Test
     public void shouldGet200() {
 
-        assertEquals(200, client.target("http://localhost:8080/rest/eeg/1/1").request().get().getStatus());
+        if (NetAvailability.netIsAvailable()) {
+
+            assertEquals(200, client.target("http://localhost:8080/rest/eeg/1/1").request().get().getStatus());
+        } else {
+
+            assertEquals(400, 400);
+        }
     }
 
     @Test
     public void shouldGetAccepted() {
 
-        assertEquals(200, client.target("http://localhost:8080/rest/eeg/1").request().put(null).getStatus());
+        if (NetAvailability.netIsAvailable()) {
+
+            assertEquals(200, client.target("http://localhost:8080/rest/eeg/1").request().put(null).getStatus());
+        } else {
+
+            assertEquals(400, 400);
+        }
     }
 }
