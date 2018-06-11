@@ -52,7 +52,8 @@ public class DataCollector {
         }
 
         IntStream.range(0, fileReader.getChannelsNum()).forEach(
-                i -> samples.add(fileReader.getRawData().get(i).subList(startSample, finalSample))
+                i -> samples.add(fileReader.getRawData()
+                        .get(i).subList(startSample, finalSample))
         );
 
         return samples;

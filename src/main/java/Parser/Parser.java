@@ -1,7 +1,9 @@
 package Parser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Class which is responsible for parsing data that are transfered from a server
@@ -14,9 +16,11 @@ public class Parser {
         values = values.substring(1, values.length() - 1);
         String valueArr[] = values.split(",");
 
-        for (String val : valueArr) {
-            result.add(Integer.parseInt(val));
-        }
+        Arrays.asList(valueArr).forEach(
+                val -> {
+                    result.add(Integer.parseInt(val));
+                }
+        );
 
         return result;
     }
@@ -27,9 +31,11 @@ public class Parser {
         values = values.substring(1, values.length() - 1);
         String valueArr[] = values.split(",");
 
-        for (String val : valueArr) {
-            result.add(Double.parseDouble(val));
-        }
+        Arrays.asList(valueArr).forEach(
+                val -> {
+                    result.add(Double.parseDouble(val));
+                }
+        );
 
         return result;
     }
